@@ -1,12 +1,26 @@
 # DDET-MTD: Data-Driven Event-Triggered MTD against Power System FDI Attack
 
+## Update
+- 2022-12-21 This paper has been accepted by IEEE Transactions on Smart Grid. Copyright of the paper is reserved by IEEE.
+- 2022-08-20 We update paper by adding more baseline experiment on event-triggered Max-Rank MTD and Robust-MTD. We open source the code for DDET-MTD.
+
+## Citation
+Please cite our paper if you find it useful for your research.
+
+@article{xu2022blending,
+  title={Blending Data and Physics Against False Data Injection Attack: An Event-Triggered Moving Target Defence Approach},
+  author={Xu, Wangkun and Higgins, Martin and Wang, Jianhong and Jaimoukha, Imad M and Teng, Fei},
+  journal={arXiv preprint arXiv:2204.12970},
+  year={2022}
+}
+
 ## Summary
 
 This repo contains all the codes and data for DDET-MTD: Data-Driven Event-Triggered MTD against Power System FDI Attack for our paper [Blending Data and Physics Against False Data Injection Attack: An Event-Triggered Moving Target Defence Approach](https://arxiv.org/abs/2204.12970), coauthoered by [Wangkun Xu](https://scholar.google.com/citations?user=-RuGgBoAAAAJ&hl=en), [Martin Higgins](https://scholar.google.com/citations?user=I2cbZoAAAAAJ&hl=en), [Jianhong Wang](https://scholar.google.co.uk/citations?user=K1FKF3IAAAAJ&hl=zh-CN), [Imad. M. Jaimoukha](https://scholar.google.co.uk/citations?user=zzIhI_YAAAAJ&hl=en), and [Fei Teng](https://scholar.google.co.uk/citations?user=aOTMH1EAAAAJ&hl=en). 
 
 ## Abstract
 
-Fast and accurate detection of cyberattacks is a key element to enable cyber resilience of power system. Recently, data-driven detectors and physics-based Moving Target Defences (MTD) have been proposed to detect false data injection (FDI) attacks on power system state estimation. However, the uncontrollable false positive rate of the data-driven detector and the extra cost of frequent MTD usage limit their wide applications. Few works have explored the overlap between these two areas in collaboratively detecting FDI attacks. To fill the gap, this paper proposes blending data-driven and physics-based approaches to enhance the detection performance. To start, a physics-informed data-driven attack detection and identification algorithm is proposed. Following this, an MTD protocol is triggered by a positive alarm from the data-driven detector. The MTD is formulated as a bilevel optimisation to robustly guarantee the effectiveness of the MTD against the worst-case attack around the identified attack vector. Meanwhile, MTD hiddenness is also improved so that it cannot be detected by the attacker. To guarantee feasibility and convergence, the optimisation is separated into two stages. For each stage, a semidefinite programming is derived through duality and linear matrix inequality. The simulation results verify that blending data and physics can achieve extremely high detection rate while simultaneously reducing the false positive rate of the data-driven detector and the extra cost of MTD.
+Fast and accurate detection of cyberattacks is a key element for a  cyber-resilient  power system. Recently, data-driven detectors and physics-based Moving Target Defences (MTD) have been proposed to detect false data injection (FDI) attacks on state estimation. However, the uncontrollable false positive rate of the data-driven detector and the extra cost of frequent MTD usage limit their wide applications. Few works have explored the overlap between these two areas. To fill this gap, this paper proposes blending data-driven and physics-based approaches to enhance the detection performance. To start, a physics-informed data-driven attack detection and identification algorithm is proposed. Then, an MTD protocol is triggered by the positive alarm from the data-driven detector. The MTD is formulated as a bilevel optimisation to robustly guarantee its effectiveness against the worst-case attack around the identified attack vector. Meanwhile, MTD hiddenness is also improved so that the defence cannot be detected by the attacker. To guarantee feasibility and convergence, the convex two-stage reformulation is derived through duality and linear matrix inequality. The simulation results verify that blending data and physics can achieve extremely high detection rate while simultaneously reducing the false positive rate of the data-driven detector and the extra cost of MTD. All codes are available at https://github.com/xuwkk/DDET-MTD.
 
 ![framework](repo_figure/framework.jpg)
 
