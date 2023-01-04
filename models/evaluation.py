@@ -102,6 +102,75 @@ class Evaluation:
         vimag_2 = vimag[self.case_class.ref_index[0]+1:].float().to(self.device).requires_grad_(True)
 
         return vreal_1, vreal_2, vimag_1, vimag_2
+    
+    def recover_no_physics(self, attack_batch):
+        """
+        attack_batch: (1, sample_length, feature_size) NOT scaled
+        """
+        
+        # attack identification (normality recovery) without physics constraint
+        # Generate constants
+        #self.case_class.gen_torch_constant()                 # prepare the tensor constant
+        attack_batch = attack_batch.float().to(self.device)
+        loss_fn = torch.nn.MSELoss()
+        self.model.train()                                    # cudnn RNN backward can only be called in training mode
+        
+        # construct the measurement vector
+        if self.mode == 'pre':
+            # use the previous measurement as warm start
+            z_est = attack_batch[:, -2:-1, :].clone().float().to(self.device).requires_grad_(True)
+        elif self.mode == 'last':
+            # use the last measurement as warm start
+            z_est = attack_batch[:, -1:, :].clone().float().to(self.device).requires_grad_(True)
+        else:
+            print(f'Mode error...')
+        
+        # Using Adam optimizer
+        optimizer = optim.Adam([z_est], lr = self.recover_lr)       # Watch on the non reference bus
+
+        # Recovery losses
+        loss_recover_summary = []             # Reconstruction loss
+        
+        start_time = time()
+        for step in range(self.max_step_size):
+            
+            optimizer.zero_grad()
+            # Concate
+            # NOTE: attack_batch is not scaled
+            recover_batch = torch.cat([attack_batch[:,:-1], z_est], dim = 1)
+            #recover_batch = recover_batch      # add the one dimension (sample_length,feature_size) ==> (1,sample_length,feature_size)
+
+            # Scale
+            recover_batch_scaled = (recover_batch - self.min)/(self.max - self.min + 1e-7)
+            
+            # Pass the recovered batch into model
+            encoded, decoded = self.model(recover_batch_scaled)
+            
+            loss_recover = loss_fn(decoded, recover_batch_scaled)    # l2 norm
+            # does not add penalization loss
+            
+            loss_recover.backward()
+            # print(loss_recover.item())
+            optimizer.step()
+            
+            # Log
+            if step >= 1:
+                # The zero run give sparse loss=0
+                loss_recover_summary.append(loss_recover.item())
+            
+            # Stop condition
+            # bypass the DDD and the iteration step is larger than the minimum state
+            # Reduce the threshold a little bit
+            if loss_recover.item() <= self.ae_threshold[self.quantile_idx]*0.8 and step >= self.min_step_size: 
+                break
+        
+        end_time = time()
+        # Output on cpu for analysis        
+        z_recover = z_est.detach().cpu()
+        
+        recover_time = end_time - start_time
+        
+        return z_recover, loss_recover_summary, recover_time
         
     def recover(self, attack_batch, v_pre, v_last):
         """

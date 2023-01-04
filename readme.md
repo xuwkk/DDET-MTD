@@ -1,22 +1,28 @@
 # DDET-MTD: Data-Driven Event-Triggered MTD against Power System FDI Attack
 
 ## Update
+- 2023-01-04 Add new experiment to compare the attack identification with/out physics information.
+- 2023-01-01 This paper has been published by IEEE Transactions on Smart Grid (early access). The paper is available at https://ieeexplore.ieee.org/document/9998121.
 - 2022-12-21 This paper has been accepted by IEEE Transactions on Smart Grid. Copyright of the paper is reserved by IEEE.
 - 2022-08-20 We update paper by adding more baseline experiment on event-triggered Max-Rank MTD and Robust-MTD. We open source the code for DDET-MTD.
 
 ## Citation
 Please cite our paper if you find it useful for your research.
 
-@article{xu2022blending,
-  title={Blending Data and Physics Against False Data Injection Attack: An Event-Triggered Moving Target Defence Approach},
-  author={Xu, Wangkun and Higgins, Martin and Wang, Jianhong and Jaimoukha, Imad M and Teng, Fei},
-  journal={arXiv preprint arXiv:2204.12970},
-  year={2022}
+@ARTICLE{9998121,
+  author={Xu, Wangkun and Higgins, Martin and Wang, Jianhong and Jaimoukha, Imad M. and Teng, Fei},
+  journal={IEEE Transactions on Smart Grid}, 
+  title={Blending Data and Physics Against False Data Injection Attack: An Event-Triggered Moving Target Defence Approach}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={1-1},
+  doi={10.1109/TSG.2022.3231728}}
 }
 
 ## Summary
 
-This repo contains all the codes and data for DDET-MTD: Data-Driven Event-Triggered MTD against Power System FDI Attack for our paper [Blending Data and Physics Against False Data Injection Attack: An Event-Triggered Moving Target Defence Approach](https://arxiv.org/abs/2204.12970), coauthoered by [Wangkun Xu](https://scholar.google.com/citations?user=-RuGgBoAAAAJ&hl=en), [Martin Higgins](https://scholar.google.com/citations?user=I2cbZoAAAAAJ&hl=en), [Jianhong Wang](https://scholar.google.co.uk/citations?user=K1FKF3IAAAAJ&hl=zh-CN), [Imad. M. Jaimoukha](https://scholar.google.co.uk/citations?user=zzIhI_YAAAAJ&hl=en), and [Fei Teng](https://scholar.google.co.uk/citations?user=aOTMH1EAAAAJ&hl=en). 
+This repo contains all the codes and data for DDET-MTD: Data-Driven Event-Triggered MTD against Power System FDI Attack for our paper [Blending Data and Physics Against False Data Injection Attack: An Event-Triggered Moving Target Defence Approach](https://ieeexplore.ieee.org/document/9998121), coauthoered by [Wangkun Xu](https://scholar.google.com/citations?user=-RuGgBoAAAAJ&hl=en), [Martin Higgins](https://scholar.google.com/citations?user=I2cbZoAAAAAJ&hl=en), [Jianhong Wang](https://scholar.google.co.uk/citations?user=K1FKF3IAAAAJ&hl=zh-CN), [Imad. M. Jaimoukha](https://scholar.google.co.uk/citations?user=zzIhI_YAAAAJ&hl=en), and [Fei Teng](https://scholar.google.co.uk/citations?user=aOTMH1EAAAAJ&hl=en). 
 
 ## Abstract
 
@@ -72,17 +78,17 @@ The main structure of this repo is summarised as follows:
 └── repo_figure
 │── saved_model
 │   └── checkpoint_rnn.pt           # trained LSTM-AE model for the case14 system
-│── gen_load_pv.ipynb               # generate the load and pv profiles for the case14 system
-│── test_jacobian.ipynb             # test the accuracy of approximation of effectiveness and hiddenness
-│── evaluation_ddd.ipynb            # evaluate the performance of the data-driven (LSTM-AE) detector
-│── evaluation_event_trigger.ipynb  # evaluate the performance of the DDET-MTD under attack
-│── evaluation_fpr.ipynb            # evaluate the performance of the DDET-MTD with attack
-│── evaluation_convergence.ipynb    # evaluate the convergence of the two-stage MTD optimisation
-│── evaluation_baseline_no_attack.ipynb      # evaluate the baseline algorithms without attack
-│── evaluation_baseline_with_attack.ipynb    # evaluate the baseline algorithms with attack
 │── draw_metric.ipynb               # ipython notebook to draw all the figures in the paper
 │── draw_profile.ipynb              # ipython notebook to draw the load and pv profiles
-│── draw_metric.ipynb               # ipython notebook to draw all the figures in the paper
+|── evaluate_convergence.py         # evaluate the convergence performance of stage one and stage two MTDs
+│── evaluation_ddd_no_physics.py    # evaluate the performance of the data-driven (LSTM-AE) detector identification without physics
+│── evaluation_ddd.py               # evaluate the performance of the data-driven (LSTM-AE) detector
+│── evaluation_baseline_no_attack.py      # evaluate the baseline algorithms without attack
+│── evaluation_baseline_with_attack.py    # evaluate the baseline algorithms with attack
+│── evaluation_event_trigger.py     # evaluate the performance of the DDET-MTD under attack
+│── evaluation_fpr.py               # evaluate the performance of the DDET-MTD with attack
+│── gen_load_pv.ipynb               # generate the load and pv profiles for the case14 system
+│── test_jacobian.ipynb             # test the accuracy of approximation of effectiveness and hiddenness
 └── readme.md                       
 
 ```
